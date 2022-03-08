@@ -1,0 +1,9 @@
+<script>
+	function validarCampo(value, prefix, descr){
+		if (value === undefined | value === '') {
+			const message = `Favor informar ${prefix} "${descr}"`;
+			alert(message);
+			throw Error(message);
+		}
+	}
+</script>

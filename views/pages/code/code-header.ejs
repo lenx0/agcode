@@ -1,0 +1,85 @@
+<script>
+
+    function clearCode(){
+
+        const listCode = document.getElementById('listCode');
+
+        listCode.innerHTML = '';
+
+        const itemCode = document.getElementById('itemCode');
+
+        itemCode.src = '';
+    }
+
+    function listCode(){
+
+        clearCode();
+
+        const exprCode = document.getElementById('exprCode').value;
+
+        const apiNode = `v1/product/search/${(exprCode ? exprCode : "")}`;
+
+        const listCode = document.getElementById('listCode');
+
+        requestGet(urlAgCode, apiNode, null, (json) => { 
+            var listProduct = exprCode ? [ json.product ] : json.product;
+                listCode.innerHTML = getContentList(listProduct);
+                ajustCodeList(listProduct);
+        });
+    }
+
+    function itemCode(){
+
+        clearCode();
+
+        const exprCode = `${document.getElementById('exprCode').value}`;
+
+        const apiNode = exprCode.indexOf('://') > -1 
+            ? `code?url=${exprCode}`
+            : `code/${exprCode}`;
+
+        requestGet(location.origin, apiNode, null, (json) => {
+            document.getElementById('itemCode').setAttribute('src', json);
+        });
+    }
+
+    function getContentList(listProduct){
+
+        const content = listProduct
+            .map(item => itemProductAgCode(item))
+            .join("\n");
+
+        return content;
+    }
+
+    function ajustCodeList(listProduct){
+
+        listProduct.forEach(item => { ajustCodeItem(item); });
+    }
+
+    function ajustCodeItem(item){
+    
+        const itemCode = document.getElementById(`itemCode${item.id}`);
+
+        const apiNode = `code/${item.id}`;
+
+        requestGet(location.origin, apiNode, null, (json) => { 
+            itemCode.src = json;
+        });
+    }
+
+    function itemProductAgCode(item){
+
+        var itemHtml = `<p><img id="itemCode${item.id}" scr=""/><a href="${urlAgCode}/${item.id}">${item.id} - ${item.name}</a></p>`;
+
+        return itemHtml;
+    }
+    
+    function dataProductCode(item){
+
+        var dataUrl = `${location.origin}/code/${item.id}`;
+
+        return dataUrl;
+    }
+
+</script>

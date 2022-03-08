@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="container-filter">        
+        <div class="form-group col-md-12">
+            <label class='control-label'>URL or Reference</label><br>
+            <input type="text" placeholder="Informe URL or Reference" id="exprCode" class="form-control"/><br>
+        </div>
+        <div class="form-group col-md-12">
+            <button type="submit" class="btn btn-primary" value="Limpar" onclick="clearCode()">Limpar</button>
+            <button type="submit" class="btn btn-primary" value="Listar" onclick="listCode()">Listar</button>
+            <button type="submit" class="btn btn-primary" value="Gerar" onclick="itemCode()">Gerar</button>
+        </div>
+    </div>
+    <div class="container-item">
+        <img id="itemCode"/>
+    </div>
+
+    <div class="container-list" id="listCode">
+    </div>
+</div>

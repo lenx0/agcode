@@ -1,0 +1,43 @@
+<script>
+
+    function pegarLogin(){
+
+        const inputUser = document.getElementById('inputUser').value;
+        const inputPass = document.getElementById('inputPass').value;
+
+        validarCampo(inputUser, 'o', 'Usuario');
+        validarCampo(inputPass, 'a', 'Senha');
+
+        const objLogin = {
+            user : inputUser,
+            pass : inputPass,
+        };
+
+        return objLogin;
+    }
+
+    function execLogin(){
+
+        const objLogin = pegarLogin();
+
+        requestPost(urlBase, "login", objLogin, (json) => {
+            execLoginResult(json);
+        });
+    }
+
+    function execLoginResult(json){
+
+        const objLoginResult = JSON.parse(json);
+        console.log(objLoginResult);
+
+        if (objLoginResult.message){
+            alert(objLoginResult.message);
+        }
+        
+        if (objLoginResult.auth === true){
+            window.sessionStorage.setItem("token", objLoginResult.token);
+            window.location.href = "/";
+        }
+    }
+
+</script>

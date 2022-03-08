@@ -1,0 +1,83 @@
+<script>
+    //const urlBase = "http://localhost:5001";
+    //const urlBase = "https://localhost:5003";
+    const urlBase = "https://connect.altogiro.net:5003";
+	//const urlBase = "https://qrcode.altogiio.net";
+	//const apiLocal = "http://localhost:3003";
+    //const apiLocal = "https://localhost:3004";
+    const apiLocal = "https://qrcode.altogrio.net";
+    const urlAgCode = "https://produtos.altogiro.net";
+    const urlAgCodeRef = "https://produtos.altogiro.net/{ref}";
+</script>
+
+<script>    
+    function requestSend(rest, base, node, data, func){
+
+        const urlRequest = `${base}/${node}`;
+
+        //console.log(`urlRequest ${urlRequest}`);
+
+        const token = window.sessionStorage.getItem("token");
+
+        //console.log(`token ${token}`);
+
+        /*
+        const myRequest = new Request(urlRequest, 
+            {
+                method: rest,
+                headers: 
+                {
+                    'Content-Type': 'application/json', 
+                    'Authorization': `Bearer ${tknRequest}`
+                },
+                body: JSON.stringify(data)
+            });
+
+        fetch(myRequest)
+            .then(res => { return res.json() })
+            //.then(json => func(json))
+            ;
+        */
+
+        const http = new XMLHttpRequest();
+        
+        http.open(rest, urlRequest);
+        
+        if (data) {
+            http.setRequestHeader('Content-type', 'application/json');
+        }
+
+        if (token) {
+            console.log(`Authorization ${token}`);
+            http.setRequestHeader('Authorization', `Bearer ${token}`);
+        }
+        
+        if (data) {
+            http.send(JSON.stringify(data));
+        }
+        else {
+            http.send();
+        }
+        
+        http.onload = function() {
+            console.log(http.responseText);
+            func(http.responseText);
+        }
+    }
+
+    function requestGet(base, node, data, func){
+        return requestSend("GET", base, node, data, func);
+    }
+
+    function requestPost(base, node, data, func){
+        return requestSend("POST", base, node, data, func);
+    }
+
+    function requestPut(base, node, data, func){
+        return requestSend("PUT", base, node, data, func);
+    }
+
+    function requestDelete(base, node, data, func){
+        return requestSend("DELETE", base, node, data, func);
+    }
+</script>
